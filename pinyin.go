@@ -25,17 +25,17 @@ var (
 		// 分号
 		"；", ";",
 		// 左/右单引号
-		"‘", " '", "’", " '",
+		"‘", "'", "’", "'",
 		// 左/右双引号
-		"“", ` "`, "”", ` "`,
+		"“", `"`, "”", `"`,
 		// 左/右直角引号
-		"「", " [", "」", " ]",
-		"『", " [", "』", " ]",
+		"「", " [", "」", "]",
+		"『", " [", "』", "]",
 		// 左/右括号
-		"（", " (", "）", " )",
-		"〔", " [", "〕", " ]",
-		"【", " [", "】", " ]",
-		"{", " {", "}", " }",
+		"（", " (", "）", ")",
+		"〔", " [", "〕", "]",
+		"【", " [", "】", "]",
+		"{", " {", "}", "}",
 		// 省略号
 		"……", "...",
 		// 破折号
@@ -49,63 +49,40 @@ var (
 		// 书名号
 		"《", " <", "》", " >",
 		"〈", " <", "〉", " >",
-		// 间隔号
-		"·", " ·",
 		// 顿号
 		"、", ",",
 	}
-	// finals 韵母表
-	finals = []string{
-		// a
-		"a1", "ā", "a2", "á", "a3", "ǎ", "a4", "à",
-		// o
-		"o1", "ō", "o2", "ó", "o3", "ǒ", "o4", "ò",
-		// e
-		"e1", "ē", "e2", "é", "e3", "ě", "e4", "è",
-		// i
-		"i1", "ī", "i2", "í", "i3", "ǐ", "i4", "ì",
-		// u
-		"u1", "ū", "u2", "ú", "u3", "ǔ", "u4", "ù",
-		// v
-		"v1", "ǖ", "v2", "ǘ", "v3", "ǚ", "v4", "ǜ",
 
-		// ai
-		"ai1", "āi", "ai2", "ái", "ai3", "ǎi", "ai4", "ài",
-		// ei
-		"ei1", "ēi", "ei2", "éi", "ei3", "ěi", "ei4", "èi",
-		// ui
-		"ui1", "uī", "ui2", "uí", "ui3", "uǐ", "ui4", "uì",
-		// ao
-		"ao1", "āo", "ao2", "áo", "ao3", "ǎo", "ao4", "ào",
-		// ou
-		"ou1", "ōu", "ou2", "óu", "ou3", "ǒu", "ou4", "òu",
-		// iu
-		"iu1", "īu", "iu2", "íu", "iu3", "ǐu", "iu4", "ìu",
-
-		// ie
-		"ie1", "iē", "ie2", "ié", "ie3", "iě", "ie4", "iè",
-		// ve
-		"ue1", "üē", "ue2", "üé", "ue3", "üě", "ue4", "üè",
-		// er
-		"er1", "ēr", "er2", "ér", "er3", "ěr", "er4", "èr",
-
-		// an
-		"an1", "ān", "an2", "án", "an3", "ǎn", "an4", "àn",
-		// en
-		"en1", "ēn", "en2", "én", "en3", "ěn", "en4", "èn",
-		// in
-		"in1", "īn", "in2", "ín", "in3", "ǐn", "in4", "ìn",
-		// un/vn
-		"un1", "ūn", "un2", "ún", "un3", "ǔn", "un4", "ùn",
-
-		// ang
-		"ang1", "āng", "ang2", "áng", "ang3", "ǎng", "ang4", "àng",
-		// eng
-		"eng1", "ēng", "eng2", "éng", "eng3", "ěng", "eng4", "èng",
-		// ing
-		"ing1", "īng", "ing2", "íng", "ing3", "ǐng", "ing4", "ìng",
-		// ong
-		"ong1", "ōng", "ong2", "óng", "ong3", "ǒng", "ong4", "òng",
+	// replacements 声调对应
+	replacements = map[string][]string{
+		"üē": {"ue", "1"},
+		"üé": {"ue", "2"},
+		"üě": {"ue", "3"},
+		"üè": {"ue", "4"},
+		"ā":  {"a", "1"},
+		"ē":  {"e", "1"},
+		"ī":  {"i", "1"},
+		"ō":  {"o", "1"},
+		"ū":  {"u", "1"},
+		"ǖ":  {"v", "1"},
+		"á":  {"a", "2"},
+		"é":  {"e", "2"},
+		"í":  {"i", "2"},
+		"ó":  {"o", "2"},
+		"ú":  {"u", "2"},
+		"ǘ":  {"v", "2"},
+		"ǎ":  {"a", "3"},
+		"ě":  {"e", "3"},
+		"ǐ":  {"i", "3"},
+		"ǒ":  {"o", "3"},
+		"ǔ":  {"u", "3"},
+		"ǚ":  {"v", "3"},
+		"à":  {"a", "4"},
+		"è":  {"e", "4"},
+		"ì":  {"i", "4"},
+		"ò":  {"o", "4"},
+		"ù":  {"u", "4"},
+		"ǜ":  {"v", "4"},
 	}
 )
 
@@ -114,15 +91,15 @@ type ConvertResult string
 
 // 字典
 type (
-	dictDir     [2]string
+	dictDir     [6]string
 	surNamesDir [1]string
 )
 
 // Config request conifg.
 type Config struct {
-	Dict       dictDir
-	Surnames   surNamesDir
-	OutputType string
+	Dict      dictDir
+	Surnames  surNamesDir
+	Delimiter string
 }
 
 // InitConfig 初始化配置
@@ -132,24 +109,98 @@ func init() {
 	var dictDir = dictDir{
 		"dict/words_0.dict",
 		"dict/words_1.dict",
+		"dict/words_2.dict",
+		"dict/words_3.dict",
+		"dict/words_4.dict",
+		"dict/words_5.dict",
 	}
 	var surNamesDir = surNamesDir{
 		"dict/surnames.dict",
 	}
+
 	InitConfig = Config{
-		Dict:       dictDir,
-		Surnames:   surNamesDir,
-		OutputType: "none",
+		Dict:     dictDir,
+		Surnames: surNamesDir,
 	}
 }
 
 // Convert 字符串转换拼音.
 // strs: 转换字符串
-// delimiter: 分隔符
-func Convert(strs string, delimiter string) string {
-	s := InitConfig.romanize(strs, false)
+func Convert(strs string) []string {
+	result := tran(strs, false)
+
+	return result.None()
+}
+
+// UnicodeConvert 字符串转换拼音.
+// strs: 转换字符串
+func UnicodeConvert(strs string) []string {
+	result := tran(strs, false)
+
+	return result.Unicode()
+}
+
+// ASCIIConvert 字符串转换拼音.
+// strs: 转换字符串
+func ASCIIConvert(strs string) []string {
+	result := tran(strs, false)
+
+	return result.ASCII()
+}
+
+// Name 翻译姓名
+func Name(strs string) *ConvertResult {
+	return tran(strs, true)
+}
+
+func tranDelimiter(split []string) string {
+	// split := strings.Split(s, " ")
+	s := strings.Join(split, InitConfig.Delimiter)
 
 	return s
+}
+
+func tran(strs string, surnames bool) *ConvertResult {
+	s := InitConfig.romanize(strs, surnames)
+	cr := ConvertResult(s)
+
+	return &cr
+}
+
+// None 不带声调输出
+// output: [pin, yin]
+func (r *ConvertResult) None() []string {
+	s := string(*r)
+
+	for key, value := range replacements {
+		s = strings.Replace(s, key, value[0], -1)
+	}
+
+	return strings.Split(s, " ")
+}
+
+// Unicode 输出
+// output: [pīn, yīn]
+func (r *ConvertResult) Unicode() []string {
+	return strings.Split(string(*r), " ")
+}
+
+// ASCII 输出
+// output: [pin1, yin1]
+func (r *ConvertResult) ASCII() []string {
+	s := string(*r)
+	split := strings.Split(s, " ")
+
+	for key, value := range replacements {
+		for i := 0; i < len(split); i++ {
+			tmpRep := strings.Replace(split[i], key, value[0], -1)
+			if split[i] != tmpRep {
+				split[i] = tmpRep + value[1]
+			}
+		}
+	}
+
+	return split
 }
 
 func (c *Config) prepare(s string) string {
@@ -186,9 +237,24 @@ func (c *Config) romanize(s string, surnames bool) string {
 		}
 	}
 
+	s = c.Punctuations(s)
+
+	s = strings.TrimSpace(s)
+	s = strings.Replace(strings.Replace(s, "  ", " ", -1), "\t", " ", -1)
+
 	return s
 }
 
+// Punctuations 转换标点符号
+func (c *Config) Punctuations(s string) string {
+	for _, p := range punctuations {
+		s = strings.Replace(s, p, " "+p, -1)
+	}
+
+	return s
+}
+
+// 转换为字符串数组
 func charToPinyin(s string, path string) string {
 	file, _ := os.Open(path)
 
@@ -204,9 +270,6 @@ func charToPinyin(s string, path string) string {
 		tmp := strings.Split(string(a), ":")
 		s = strings.Replace(s, tmp[0], tmp[1], -1)
 	}
-
-	s = strings.TrimSpace(s)
-	s = strings.Replace(strings.Replace(s, "  ", " ", -1), "\t", " ", -1)
 
 	return s
 }
