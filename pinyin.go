@@ -107,15 +107,15 @@ var InitConfig Config
 
 func init() {
 	var dictDir = dictDir{
-		"dict/words_0.dict",
-		"dict/words_1.dict",
-		"dict/words_2.dict",
-		"dict/words_3.dict",
-		"dict/words_4.dict",
-		"dict/words_5.dict",
+		os.Getenv("GOPATH") + "/src/github.com/gurudin/pinyin/dict/words_0.dict",
+		os.Getenv("GOPATH") + "/src/github.com/gurudin/pinyin/dict/words_1.dict",
+		os.Getenv("GOPATH") + "/src/github.com/gurudin/pinyin/dict/words_2.dict",
+		os.Getenv("GOPATH") + "/src/github.com/gurudin/pinyin/dict/words_3.dict",
+		os.Getenv("GOPATH") + "/src/github.com/gurudin/pinyin/dict/words_4.dict",
+		os.Getenv("GOPATH") + "/src/github.com/gurudin/pinyin/dict/words_5.dict",
 	}
 	var surNamesDir = surNamesDir{
-		"dict/surnames.dict",
+		os.Getenv("GOPATH") + "/src/github.com/gurudin/pinyin/dict/surnames.dict",
 	}
 
 	InitConfig = Config{
