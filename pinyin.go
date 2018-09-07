@@ -161,6 +161,19 @@ func Permalink(strs, delimiter string) string {
 	return tranDelimiter(resStrs)
 }
 
+// Abbr 获取首字母带分隔符的拼音字符串
+func Abbr(strs, delimiter string) string {
+	InitConfig.Delimiter = delimiter
+	resStrArr := tran(strs, false).None()
+
+	var result []string
+	for _, v := range resStrArr {
+		result = append(result, string([]byte(v)[:1]))
+	}
+
+	return strings.Join(result, InitConfig.Delimiter)
+}
+
 func tranDelimiter(split []string) string {
 	s := strings.Join(split, InitConfig.Delimiter)
 

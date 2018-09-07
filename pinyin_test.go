@@ -26,3 +26,8 @@ func TestName(t *testing.T) {
 func TestPermalink(t *testing.T) {
 	fmt.Println(Permalink("go语言汉字转换拼音", "-"))
 }
+
+func TestAbbr(t *testing.T) {
+	fmt.Println(Abbr("获取首字母带分隔符的拼音字符串", ""))
+	fmt.Println(Abbr("获取首字母带分隔符的拼音字符串", "-"))
+}

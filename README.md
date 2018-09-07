@@ -50,3 +50,12 @@ pinyin.Name("冒顿单于").ASCII()
 pinyin.Permalink("go语言汉字转换拼音", "-")
 // -> go-yu-yan-han-zi-zhuan-huan-pin-yin
 ```
+
+### 获取首字母带分隔符的拼音字符串
+```
+pinyin.Abbr("获取首字母带分隔符的拼音字符串", "")
+// -> hqszmdfgfdpyzfc
+
+pinyin.Abbr("获取首字母带分隔符的拼音字符串", "-")
+// -> h-q-s-z-m-d-f-g-f-d-p-y-z-f-c
+```
