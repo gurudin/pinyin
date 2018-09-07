@@ -22,3 +22,7 @@ func TestName(t *testing.T) {
 	fmt.Println(Name("冒顿单于").Unicode())
 	fmt.Println(Name("冒顿单于").ASCII())
 }
+
+func TestPermalink(t *testing.T) {
+	fmt.Println(Permalink("go语言汉字转换拼音", "-"))
+}

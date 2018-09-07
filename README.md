@@ -44,3 +44,9 @@ pinyin.Name("冒顿单于").Unicode()
 pinyin.Name("冒顿单于").ASCII()
 // -> [mo4 du2 chan2 yu2]
 ```
+
+### 生成带分隔符的拼音字符串
+```
+pinyin.Permalink("go语言汉字转换拼音", "-")
+// -> go-yu-yan-han-zi-zhuan-huan-pin-yin
+```

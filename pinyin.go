@@ -153,8 +153,15 @@ func Name(strs string) *ConvertResult {
 	return tran(strs, true)
 }
 
+// Permalink 生成带分隔符的拼音字符串
+func Permalink(strs, delimiter string) string {
+	InitConfig.Delimiter = delimiter
+	resStrs := tran(strs, false).None()
+
+	return tranDelimiter(resStrs)
+}
+
 func tranDelimiter(split []string) string {
-	// split := strings.Split(s, " ")
 	s := strings.Join(split, InitConfig.Delimiter)
 
 	return s
