@@ -24,7 +24,7 @@ func TestName(t *testing.T) {
 }
 
 func TestPermalink(t *testing.T) {
-	fmt.Println(Permalink("go语言汉字转换拼音", "-"))
+	fmt.Println(Permalink("go语言，汉字转换拼音", " "))
 }
 
 func TestAbbr(t *testing.T) {
